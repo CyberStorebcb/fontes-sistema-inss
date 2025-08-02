@@ -16,52 +16,24 @@ parts/
 sdist/
 var/
 wheels/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-PIPFILE.lock
 
-# PyInstaller
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Virtual environments
-.env
-.venv
-env/
+# Virtual Environment
+.venv/
 venv/
+env/
 ENV/
-env.bak/
-venv.bak/
 
-# IDEs
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS generated files
+# OS
 .DS_Store
 .DS_Store?
 ._*
@@ -71,27 +43,29 @@ ehthumbs.db
 Thumbs.db
 
 # Logs
+logs/*.log
 *.log
-logs/
 
 # Database
-*.sqlite
-*.sqlite3
-*.db
+database/*.db-journal
+session.dat
 
 # Temporary files
-temp/
-tmp/
 *.tmp
 *.temp
+*.bak
 
-# WebDriver cache
-.wdm/
-chromedriver*
-geckodriver*
-edgedriver*
+# PyInstaller
+*.manifest
+*.spec
+build/
+dist/
 
-# Application specific
-data/
-backup/
-exports/
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Project specific
+profile_images/
+temp/

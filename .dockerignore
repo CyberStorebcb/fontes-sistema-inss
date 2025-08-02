@@ -1,0 +1,76 @@
+# Sistema FONTES - Docker Ignore
+
+# Git
+.git
+.gitignore
+.github
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporários
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Documentação
+README.md
+CHANGELOG.md
+docs/
+
+# Testes
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Desenvolvimento
+requirements.txt
+requirements-dev.txt
+.env.example
+
+# Arquivos específicos do projeto
+setup_web_server.py
+main_launcher.py
+tests/
+screenshots/
+backup/

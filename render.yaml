@@ -1,13 +1,21 @@
-# render.yaml
+# render.yaml - Sistema FONTES v3.0
 services:
   - type: web
     name: fontes-sistema-inss
     env: python
+    region: oregon
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    branch: main
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 app:app
     envVars:
-      - key: RENDER
-        value: true
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHONDONTWRITEBYTECODE
+        value: 1
       - key: SECRET_KEY
         generateValue: true
+    healthCheckPath: /api/health
+    autoDeploy: true

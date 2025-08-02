@@ -12,7 +12,7 @@ import customtkinter as ctk
 # Configurar path para recursos empacotados
 if getattr(sys, 'frozen', False):
     # Executável PyInstaller
-    BASE_DIR = sys._MEIPASS
+    BASE_DIR = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
 else:
     # Desenvolvimento
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))

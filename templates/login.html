@@ -1,0 +1,381 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Sistema FONTES{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-lg-5 col-md-7">
+            <div class="glass-card">
+                <!-- Header -->
+                <div class="text-center mb-5">
+                    <div class="mb-4">
+                        <i class="fas fa-shield-alt text-primary" style="font-size: 4rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));"></i>
+                    </div>
+                    <h2 class="text-gradient mb-2">Acesso ao Sistema</h2>
+                    <p class="text-muted">Entre com suas credenciais para continuar</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" method="POST" action="/login">
+                    <div class="form-group mb-4">
+                        <label for="usuario" class="form-label">
+                            <i class="fas fa-user me-2"></i>Usuário
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="usuario" 
+                            name="usuario" 
+                            placeholder="Digite seu usuário"
+                            required
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="senha" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Senha
+                        </label>
+                        <div class="position-relative">
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="senha" 
+                                name="senha" 
+                                placeholder="Digite sua senha"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button 
+                                type="button" 
+                                class="btn position-absolute top-50 end-0 translate-middle-y me-3 p-0 border-0 bg-transparent text-muted"
+                                onclick="togglePassword()"
+                                style="z-index: 10;"
+                            >
+                                <i id="toggleIcon" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="lembrarme" name="lembrarme">
+                                <label class="form-check-label text-light" for="lembrarme">
+                                    Lembrar-me
+                                </label>
+                            </div>
+                            <a href="#" class="text-decoration-none" onclick="showForgotPassword()">
+                                Esqueceu a senha?
+                            </a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-4 hover-lift">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        ENTRAR NO SISTEMA
+                    </button>
+                </form>
+
+                <!-- Quick Access -->
+                <div class="quick-access mb-4">
+                    <p class="text-center text-muted small mb-3">Acesso rápido para demonstração:</p>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-outline-light btn-sm w-100" onclick="quickLogin('admin', 'admin123')">
+                                <i class="fas fa-user-shield me-1"></i>Administrador
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-light btn-sm w-100" onclick="quickLogin('demo', 'demo123')">
+                                <i class="fas fa-user me-1"></i>Demonstração
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Info -->
+                <div class="security-info">
+                    <div class="alert alert-info p-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-shield-check text-success me-3 fs-4"></i>
+                            <div>
+                                <h6 class="mb-1">Conexão Segura</h6>
+                                <small class="text-muted">
+                                    Seus dados são protegidos com criptografia SSL de 256 bits
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="text-center mt-4">
+                    <p class="text-muted small mb-2">
+                        Não tem uma conta? 
+                        <a href="#" class="text-decoration-none" onclick="showRegisterInfo()">
+                            Solicitar acesso
+                        </a>
+                    </p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="#" class="text-muted text-decoration-none hover-lift" onclick="showHelp()">
+                            <i class="fas fa-question-circle me-1"></i>Ajuda
+                        </a>
+                        <a href="#" class="text-muted text-decoration-none hover-lift" onclick="showSupport()">
+                            <i class="fas fa-headset me-1"></i>Suporte
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="text-center mt-4">
+                <div class="d-inline-flex align-items-center glass-border rounded-pill px-3 py-2">
+                    <span class="status-indicator bg-success rounded-circle me-2" style="width: 8px; height: 8px;"></span>
+                    <small class="text-muted">
+                        Todos os sistemas operacionais
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Toggle password visibility
+function togglePassword() {
+    const senhaInput = document.getElementById('senha');
+    const toggleIcon = document.getElementById('toggleIcon');
+    
+    if (senhaInput.type === 'password') {
+        senhaInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        senhaInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+
+// Quick login function
+function quickLogin(usuario, senha) {
+    document.getElementById('usuario').value = usuario;
+    document.getElementById('senha').value = senha;
+    
+    // Visual feedback
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Entrando...';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+        document.getElementById('loginForm').submit();
+    }, 1000);
+}
+
+// Show forgot password modal
+function showForgotPassword() {
+    const modalHtml = `
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-key"></i> Recuperar Senha
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Para recuperar sua senha, entre em contato com o administrador do sistema:</p>
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-envelope"></i> Email:</h6>
+                            <p class="mb-2">suporte@fontes.com</p>
+                            <h6><i class="fas fa-phone"></i> Telefone:</h6>
+                            <p class="mb-0">0800-123-456</p>
+                        </div>
+                        <p class="small text-muted">
+                            Tenha em mãos seus dados pessoais e comprovante de identidade.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <a href="mailto:suporte@fontes.com" class="btn btn-primary">
+                            <i class="fas fa-envelope"></i> Enviar Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    fontesSystem.showModal(modalHtml, 'forgotPasswordModal');
+}
+
+// Show register info
+function showRegisterInfo() {
+    fontesSystem.showNotification(
+        'Para solicitar acesso ao sistema, entre em contato com nossa equipe de suporte através do telefone 0800-123-456 ou email suporte@fontes.com',
+        'info',
+        8000
+    );
+}
+
+// Show help
+function showHelp() {
+    const modalHtml = `
+        <div class="modal fade" id="helpModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-question-circle"></i> Central de Ajuda
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-info-circle text-primary"></i> Como fazer login?</h6>
+                                <p class="small mb-3">
+                                    Digite seu usuário e senha nos campos indicados. Para demonstração, 
+                                    use os botões de acesso rápido.
+                                </p>
+                                
+                                <h6><i class="fas fa-shield-alt text-success"></i> Segurança</h6>
+                                <p class="small mb-3">
+                                    O sistema utiliza criptografia SSL e autenticação segura para 
+                                    proteger suas informações.
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-key text-warning"></i> Esqueci minha senha</h6>
+                                <p class="small mb-3">
+                                    Entre em contato com o suporte através do email ou telefone 
+                                    para recuperar sua senha.
+                                </p>
+                                
+                                <h6><i class="fas fa-headset text-info"></i> Suporte Técnico</h6>
+                                <p class="small mb-3">
+                                    Nossa equipe está disponível 24/7 para auxiliá-lo com 
+                                    qualquer dúvida ou problema técnico.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <a href="tel:0800123456" class="btn btn-primary">
+                            <i class="fas fa-phone"></i> Ligar para Suporte
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    fontesSystem.showModal(modalHtml, 'helpModal');
+}
+
+// Show support
+function showSupport() {
+    fontesSystem.showNotification(
+        'Suporte 24/7: Telefone 0800-123-456 | Email: suporte@fontes.com | Chat online disponível',
+        'info',
+        6000
+    );
+}
+
+// Form validation on submit
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    const usuario = document.getElementById('usuario').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+    
+    if (!usuario || !senha) {
+        e.preventDefault();
+        fontesSystem.showNotification('Por favor, preencha todos os campos', 'error');
+        return;
+    }
+    
+    // Show loading
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Entrando...';
+    submitBtn.disabled = true;
+    
+    // In case of error, restore button
+    setTimeout(() => {
+        if (submitBtn.disabled) {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+    }, 10000);
+});
+
+// Auto-focus on first input
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('usuario').focus();
+    
+    // Add enter key navigation
+    document.getElementById('usuario').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('senha').focus();
+        }
+    });
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Alt + Q for quick admin login
+    if (e.altKey && e.key === 'q') {
+        e.preventDefault();
+        quickLogin('admin', 'admin123');
+    }
+    
+    // Alt + D for demo login
+    if (e.altKey && e.key === 'd') {
+        e.preventDefault();
+        quickLogin('demo', 'demo123');
+    }
+});
+</script>
+
+<style>
+.min-vh-100 {
+    min-height: 100vh !important;
+}
+
+.status-indicator {
+    animation: pulse 2s infinite;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+}
+
+.quick-access .btn {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+}
+
+.security-info .alert {
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    background: rgba(33, 150, 243, 0.1);
+}
+
+@media (max-width: 576px) {
+    .glass-card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .quick-access .btn {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+    }
+}
+</style>
+{% endblock %}

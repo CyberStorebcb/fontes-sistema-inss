@@ -1,0 +1,27 @@
+{
+    "include": [
+        "src/**",
+        "*.py"
+    ],
+    "exclude": [
+        "**/__pycache__",
+        "**/.venv",
+        "**/venv",
+        "**/node_modules",
+        "**/.git"
+    ],
+    "extraPaths": [
+        "./src",
+        "./src/auth",
+        "./src/views",
+        "./src/controllers",
+        "./src/models",
+        "./src/utils"
+    ],
+    "typeCheckingMode": "basic",
+    "useLibraryCodeForTypes": true,
+    "reportMissingImports": "warning",
+    "reportMissingTypeStubs": false,
+    "pythonVersion": "3.13",
+    "pythonPlatform": "Windows"
+}

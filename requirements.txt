@@ -1,0 +1,64 @@
+# Sistema FONTES v3.0 - Web Server
+Flask==2.3.3
+gunicorn==21.2.0
+Werkzeug==2.3.7
+
+# Utilitários de tipo e performance
+typing-extensions>=4.5.0
+
+# =====================================================
+# Automação Web e Selenium
+
+# Selenium - Automação de navegador para Meu INSS
+selenium>=4.15.0
+
+# WebDriver Manager - Gerenciamento automático de drivers
+webdriver-manager>=4.0.0
+
+# Requests - Requisições HTTP (dependência do webdriver-manager)
+requests>=2.31.0
+
+# urllib3 - Biblioteca de HTTP baixo nível
+urllib3>=2.0.0
+
+# =====================================================
+# Bibliotecas padrão Python (já incluídas)
+# - sqlite3: Banco de dados local
+# - hashlib: Criptografia de senhas
+# - os: Operações do sistema
+# - sys: Informações do sistema
+# - threading: Multi-threading
+# - time: Operações de tempo
+# - logging: Sistema de logs
+# - tkinter: Interface gráfica padrão
+# - webbrowser: Abertura de navegador
+# - uuid: Geração de IDs únicos
+# - datetime: Operações de data/hora
+# - math: Operações matemáticas
+# - json: Manipulação JSON
+# - zipfile: Manipulação de arquivos ZIP
+# - subprocess: Execução de processos
+# - urllib.request: Requisições HTTP básicas
+# - platform: Informações da plataforma
+# - pathlib: Manipulação de caminhos
+
+# =====================================================
+# Dependências opcionais para melhor performance
+
+# psutil - Informações do sistema (opcional)
+# psutil>=5.9.0
+
+# cryptography - Criptografia avançada (opcional)
+# cryptography>=41.0.0
+
+# Módulos padrão incluídos no Python (não instalar):
+# - tkinter: Interface gráfica base
+# - sqlite3: Banco de dados para usuários e sessões
+# - datetime: Manipulação de datas e expiração de sessões
+# - uuid: Geração de protocolos e tokens
+# - logging: Sistema de logs e auditoria
+# - threading: Animações assíncronas e autenticação
+# - math: Cálculos de animação
+# - time: Controle de timing
+# - hashlib: Criptografia de senhas
+# - os: Operações de sistema e segurança

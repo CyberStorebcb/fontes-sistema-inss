@@ -1,0 +1,13 @@
+# render.yaml
+services:
+  - type: web
+    name: fontes-sistema-inss
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: RENDER
+        value: true
+      - key: SECRET_KEY
+        generateValue: true

@@ -1,0 +1,106 @@
+# Sistema FONTES v3.0 - Docker Compose
+version: '3.8'
+
+services:
+  # Aplicação principal
+  fontes-app:
+    build: .
+    container_name: fontes-sistema
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///fontes.db
+      - SECRET_KEY=sua-chave-secreta-aqui-mude-em-producao
+    volumes:
+      - fontes_data:/app/data
+      - fontes_logs:/app/logs
+    networks:
+      - fontes-network
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Cache Redis
+  redis:
+    image: redis:7-alpine
+    container_name: fontes-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - fontes-network
+
+  # Proxy reverso Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: fontes-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+      - fontes_logs:/var/log/nginx
+    networks:
+      - fontes-network
+    depends_on:
+      - fontes-app
+
+  # Banco de dados PostgreSQL (opcional)
+  postgres:
+    image: postgres:15-alpine
+    container_name: fontes-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fontes
+      POSTGRES_USER: fontes_user
+      POSTGRES_PASSWORD: sua-senha-db-aqui
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - fontes-network
+    profiles:
+      - database
+
+  # Monitoramento Portainer (opcional)
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: fontes-portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - fontes-network
+    profiles:
+      - monitoring
+
+# Volumes persistentes
+volumes:
+  fontes_data:
+    driver: local
+  fontes_logs:
+    driver: local
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+  portainer_data:
+    driver: local
+
+# Rede interna
+networks:
+  fontes-network:
+    driver: bridge
